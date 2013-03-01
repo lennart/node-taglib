@@ -20,7 +20,7 @@
           
         }],
         ['OS=="win"', {
-          'libraries': ['-LC:/taglib/lib -ltag'],
+          'libraries': ['C:/taglib/lib/tag.lib'],
           'defines': [
             '_WINDOWS',
             '_WINSOCKAPI_',
