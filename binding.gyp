@@ -23,7 +23,6 @@
           'libraries': ['C:/taglib/lib/tag.lib'],
           'defines': [
             '_WINDOWS',
-            '_WINSOCKAPI_',
             # to avoid problems with winsock2 inclusion in windows.h
             'WIN32_LEAN_AND_MEAN'
           ],
