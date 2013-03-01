@@ -27,7 +27,7 @@
             # to avoid problems with winsock2 inclusion in windows.h
             'WIN32_LEAN_AND_MEAN'
           ],
-          'include_dirs': ['-IC:/taglib/include/taglib']
+          'include_dirs': ['C:/taglib/include/taglib']
         }, { # OS!="win"
           'libraries': ['<!(taglib-config --libs)'],
           'cflags': [
