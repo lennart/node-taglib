@@ -3,7 +3,11 @@
 
 #include <fileref.h>
 #include <node.h>
+#ifdef _WINDOWS
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 
 namespace node_taglib {
 class Tag : public node::ObjectWrap {

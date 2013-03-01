@@ -14,12 +14,15 @@ using namespace node;
 
 namespace node_taglib {
 
+#ifndef _WINDOWS
+  // Windows does neither define suseconds_t, nor gettimeofday
 static suseconds_t now()
 {
     struct timeval t;
     gettimeofday(&t, NULL);
     return t.tv_usec;
 }
+#endif
 
 static Persistent<FunctionTemplate> TagTemplate;
 
