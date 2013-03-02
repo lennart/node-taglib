@@ -177,9 +177,8 @@ v8::Handle<v8::Value> AsyncReadFile(const v8::Arguments &args) {
         return ThrowException(String::New("Expected string or buffer as first argument"));
     }
 
-    AsyncBaton *baton = new AsyncBaton;
+    AsyncBaton *baton = new AsyncBaton(TagLib::String::null.toCString());
     baton->request.data = baton;
-    baton->path = 0;
     baton->format = TagLib::String::null;
     baton->stream = 0;
     baton->error = 0;
@@ -206,7 +205,7 @@ void AsyncReadFileDo(uv_work_t *req) {
 
     TagLib::FileRef *f;
 
-    if (baton->path) {
+    if (baton->path == TagLib::String::null.toCString()) {
         baton->error = node_taglib::CreateFileRefPath(baton->path, &f);
     }
     else {
@@ -273,6 +272,10 @@ Handle<Value> TagLibStringToString( TagLib::String s )
     }
 }
 
+Handle<Value> TagLibStringToString( TagLib::FileName s ) {
+    return TagLibStringToString( TagLib::String((const char *)s) );
+}
+
 TagLib::String NodeStringToTagLibString( Local<Value> s )
 {
     if(s->IsNull()) {
@@ -300,7 +303,7 @@ CallbackResolver::CallbackResolver(Persistent<Function> func)
     , resolverFunc(func)
     // the constructor is always called in the v8 thread
 #ifdef _WIN32
-    , created_in(GetCurrentThreadId())
+    , created_in((unsigned long)(GetCurrentThreadId()))
 #else
     , created_in(pthread_self())
 #endif
@@ -335,7 +338,7 @@ void CallbackResolver::invokeResolver(AsyncResolverBaton *baton)
 
 TagLib::File *CallbackResolver::createFile(TagLib::FileName fileName, bool readAudioProperties, TagLib::AudioProperties::ReadStyle audioPropertiesStyle) const
 {
-    AsyncResolverBaton baton;
+    AsyncResolverBaton baton = AsyncResolverBaton(TagLib::String::null.toCString());
     baton.request.data = (void *) &baton;
     baton.resolver = this;
     baton.fileName = fileName;

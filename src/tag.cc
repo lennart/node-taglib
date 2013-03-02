@@ -210,9 +210,8 @@ v8::Handle<v8::Value> Tag::AsyncTag(const v8::Arguments &args) {
     }
 
 
-    AsyncBaton *baton = new AsyncBaton;
+    AsyncBaton *baton = new AsyncBaton(TagLib::String::null.toCString());
     baton->request.data = baton;
-    baton->path = 0;
     baton->tag = NULL;
     baton->error = 0;
 
@@ -238,7 +237,7 @@ void Tag::AsyncTagReadDo(uv_work_t *req) {
 
     TagLib::FileRef *f;
 
-    if (baton->path) {
+    if (baton->path == TagLib::String::null.toCString()) {
         baton->error = node_taglib::CreateFileRefPath(baton->path, &f);
     }
     else {
@@ -271,7 +270,7 @@ void Tag::AsyncTagReadAfter(uv_work_t *req) {
     }
 
     baton->callback.Dispose();
-    delete baton->path;
+    delete (const char *)(baton->path);
     delete baton;
 }
 
@@ -285,7 +284,7 @@ v8::Handle<v8::Value> Tag::AsyncSaveTag(const v8::Arguments &args) {
 
     Tag *t = ObjectWrap::Unwrap<Tag>(args.This());
 
-    AsyncBaton *baton = new AsyncBaton;
+    AsyncBaton *baton = new AsyncBaton(TagLib::String::null.toCString());
     baton->request.data = baton;
     baton->tag = t;
     baton->callback = Persistent<Function>::New(callback);
