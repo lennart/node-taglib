@@ -44,6 +44,30 @@ certain bugs present in the released v1.7 cause problems.**
 
     npm install taglib
 
+#### Windows specifics
+
+Eventually the above should work on windows as well,
+
+for now one has to manually build the lib and put the compiled .dlls for zlib and taglib into the produces build/Release folder
+
+##### Building taglib
+
+So you will need a pre-built or self-built taglib, I followed [the instructions for MSVC 2010 Express](http://stackoverflow.com/a/5365962) with the taglib 1.8 master from git.
+
+Only the 32bit version of taglib on Windows 7 is tested, I couldn't get 64bit compiled (linker errors).
+
+I put the released code in "C:/taglib" to make the binding.gyp pick them up.
+
+##### Building the node extension
+
+    git clone git://github.com/nikhilm/node-taglib.git
+    cd node-taglib
+    npm install
+
+Then copy over the zlibd1.dll and the tag.dll into ./build/Release and try using the sync version of node-taglib (currently async is borked)
+
+    node ./sync.js /path/to/your/mp3s
+
 ### From source
 
     # make sure you have node and taglib installed
