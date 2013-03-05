@@ -205,7 +205,7 @@ void AsyncReadFileDo(uv_work_t *req) {
 
     TagLib::FileRef *f;
 
-    if (baton->path == TagLib::String::null.toCString()) {
+    if (baton->path != TagLib::String::null.toCString()) {
         baton->error = node_taglib::CreateFileRefPath(baton->path, &f);
     }
     else {
