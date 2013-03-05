@@ -64,9 +64,11 @@ I put the released code in "C:/taglib" to make the binding.gyp pick them up.
     cd node-taglib
     npm install
 
-Then copy over the zlibd1.dll and the tag.dll into ./build/Release and try using the sync version of node-taglib (currently async is borked)
+Then copy over the zlibd1.dll and the tag.dll into ./build/Release and try it! 
 
     node ./sync.js /path/to/your/mp3s
+
+    node ./async.js /path/to/your/mp3s
 
 ### From source
 
