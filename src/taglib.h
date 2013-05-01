@@ -5,7 +5,11 @@
 #include <tag.h>
 #include <node.h>
 #include <uv.h>
+#ifdef _WINDOWS
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 
 #include <node_version.h>
 

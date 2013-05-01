@@ -2,8 +2,8 @@
   "targets": [
     {
       "target_name": "taglib",
-      "sources": ["src/bufferstream.c", "src/metadata.cc", "src/taglib.cc"],
-      "libraries": ["<!(taglib-config --libs)"],
+      "sources": ["src/bufferstream.cc", "src/tag.cc", "src/taglib.cc"],
+      
       'conditions': [
         ['OS=="mac"', {
           # cflags on OS X are stupid and have to be defined like this
@@ -17,9 +17,21 @@
             ]
           }
         }, {
+          
+        }],
+        ['OS=="win"', {
+          'libraries': ['C:/taglib/lib/tag.lib'],
+          'defines': [
+            '_WINDOWS',
+            # to avoid problems with winsock2 inclusion in windows.h
+            'WIN32_LEAN_AND_MEAN'
+          ],
+          'include_dirs': ['C:/taglib/include/taglib']
+        }, { # OS!="win"
+          'libraries': ['<!(taglib-config --libs)'],
           'cflags': [
             '<!@(taglib-config --cflags)'
-          ],
+          ]
         }]
       ]
     }
